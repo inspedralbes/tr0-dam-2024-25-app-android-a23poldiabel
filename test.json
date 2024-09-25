@@ -1,0 +1,136 @@
+{
+  "preguntes": [
+    {
+      "id": 1,
+      "pregunta": "¿Cuál es la velocidad máxima permitida en una vía urbana con un carril por sentido?",
+      "respostes": [
+        "30 km/h",
+        "50 km/h",
+        "60 km/h",
+        "80 km/h"
+      ],
+      "resposta_correcta": 1,
+      "imatge": "https://noticias.todotest.com/wp-content/uploads/2024/04/coches-y-transito-en-vias-urbanas.jpeg"
+    },
+    {
+      "id": 2,
+      "pregunta": "¿Qué distancia mínima debe haber entre tu vehículo y el vehículo de delante en una vía fuera de poblado?",
+      "respostes": [
+        "100 metros",
+        "50 metros",
+        "Una distancia suficiente para detenerse sin colisionar",
+        "10 metros"
+      ],
+      "resposta_correcta": 2,
+      "imatge": "https://dudasleyes.s3.eu-west-3.amazonaws.com/wp-content/uploads/2017/06/24163120/distancia-de-seguridad.png.webp"
+    },
+    {
+      "id": 3,
+      "pregunta": "¿Qué indica una línea continua en el centro de la calzada?",
+      "respostes": [
+        "Prohíbe el cambio de carril",
+        "Permite adelantar",
+        "Se puede cruzar si no vienen vehículos de frente",
+        "Marca el final de la vía"
+      ],
+      "resposta_correcta": 0,
+      "imatge": "https://images.prismic.io/obikares/ae4892de-786e-4cbd-9481-a66d6542049f_doble-linea-continua.jpg?auto=compress,format&rect=0,228,4096,2303&w=980&h=551"
+    },
+    {
+      "id": 4,
+      "pregunta": "¿Cuál es la tasa máxima de alcohol permitida en sangre para un conductor novel?",
+      "respostes": [
+        "0,5 gramos/litro",
+        "0,3 gramos/litro",
+        "0,0 gramos/litro",
+        "0,3 gramos/litro"
+      ],
+      "resposta_correcta": 3,
+      "imatge": "https://phantom-elmundo.unidadeditorial.es/8c5d6758c176d87b5a201eee9a098d2e/crop/0x0/1023x682/resize/828/f/jpg/assets/multimedia/imagenes/2023/01/19/16741463399401.jpg"
+    },
+    {
+      "id": 5,
+      "pregunta": "En una intersección sin señalizar, ¿quién tiene preferencia?",
+      "respostes": [
+        "El vehículo que circula por la vía más ancha",
+        "El vehículo que se aproxima por la derecha",
+        "El vehículo que circula más rápido",
+        "El vehículo que circula en línea recta"
+      ],
+      "resposta_correcta": 1,
+      "imatge": "https://noticias.coches.com/wp-content/uploads/2022/05/Cruce-Interseccion-1-859x483.jpg"
+    },
+    {
+      "id": 6,
+      "pregunta": "¿Qué significa una señal de triángulo invertido con borde rojo?",
+      "respostes": [
+        "Obligación de detenerse",
+        "Peligro por cruce de peatones",
+        "Ceda el paso",
+        "Prohibido adelantar"
+      ],
+      "resposta_correcta": 2,
+      "imatge": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-dPY39DZSpiucWiyXZ1IGbKmoH4rCe-cQ-A&s"
+    },
+    {
+      "id": 7,
+      "pregunta": "¿Cuándo está permitido utilizar el claxon en una vía urbana?",
+      "respostes": [
+        "Para advertir de un peligro inmediato",
+        "Para saludar a otro conductor",
+        "Para llamar la atención de los peatones",
+        "Para evitar un atasco"
+      ],
+      "resposta_correcta": 0,
+      "imatge": "https://images.ecestaticos.com/YB8pxZT-K9lpbGXK8rnFkT-TYOA=/0x0:1000x750/1200x900/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2F86d%2F895%2F642%2F86d895642593de34ae0199a46fe3b4de.jpg"
+    },
+    {
+      "id": 8,
+      "pregunta": "En caso de avería en una autopista, ¿qué debes hacer primero?",
+      "respostes": [
+        "Detener el vehículo en el arcén y encender las luces de emergencia",
+        "Abandonar el vehículo inmediatamente",
+        "Colocar los triángulos de emergencia",
+        "Caminar hasta la siguiente salida"
+      ],
+      "resposta_correcta": 0,
+      "imatge": "https://www.rodi.es/blog/wp-content/uploads/2016/04/seguridad-ante-un-pinchazo-o-averia-rodimotorservices.jpg"
+    },
+    {
+      "id": 9,
+      "pregunta": "¿Qué indica una señal redonda con fondo blanco y un número negro en su interior?",
+      "respostes": [
+        "Velocidad mínima obligatoria",
+        "Fin de prohibiciones",
+        "Velocidad máxima permitida",
+        "Fin de autovía"
+      ],
+      "resposta_correcta": 2,
+      "imatge": "https://www.buscatucoche.com/wp-content/uploads/2021/12/tipos-senales-trafico-circulares.jpg"
+    },
+    {
+      "id": 10,
+      "pregunta": "¿Qué vehículos deben llevar siempre encendidas las luces de cruce durante el día?",
+      "respostes": [
+        "Los autobuses",
+        "Los vehículos agrícolas",
+        "Las motocicletas",
+        "Los vehículos de emergencia"
+      ],
+      "resposta_correcta": 2,
+      "imatge": "https://www.fundacionmapfre.org/media/educacion-divulgacion/prevencion/accidentes-mayores/luces-cruce-dia-1194x585-1.jpg"
+    },
+    {
+      "id": 11,
+      "pregunta": "Si al aproximarse a una intersección, observa a un agente con el brazo levantado verticalmente, debe detenerse…",
+      "imatge": "https://img.freepik.com/fotos-premium/mujer-policia-sonriente-toma-juramento-mano-derecha-levantada-ejemplificando-deber-orgullo_86638-2348.jpg",
+      "respostes": [
+        "sólo si ya ha entrado en la intersección.",
+        "sólo si ve al agente de frente y siempre que pueda hacerlo en condiciones de seguridad.",
+        "siempre que pueda hacerlo en condiciones de seguridad.",
+        "Puede"
+      ],
+      "resposta_correcta": 2
+    }
+  ]
+}
