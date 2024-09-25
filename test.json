@@ -1,18 +1,6 @@
 {
   "preguntes": [
     {
-      "id": 1,
-      "pregunta": "¿Cuál es la velocidad máxima permitida en una vía urbana con un carril por sentido?",
-      "respostes": [
-        "30 km/h",
-        "50 km/h",
-        "60 km/h",
-        "80 km/h"
-      ],
-      "resposta_correcta": 1,
-      "imatge": "https://noticias.todotest.com/wp-content/uploads/2024/04/coches-y-transito-en-vias-urbanas.jpeg"
-    },
-    {
       "id": 2,
       "pregunta": "¿Qué distancia mínima debe haber entre tu vehículo y el vehículo de delante en una vía fuera de poblado?",
       "respostes": [
@@ -129,6 +117,18 @@
         "sólo si ve al agente de frente y siempre que pueda hacerlo en condiciones de seguridad.",
         "siempre que pueda hacerlo en condiciones de seguridad.",
         "Puede"
+      ],
+      "resposta_correcta": 2
+    },
+    {
+      "id": 11,
+      "pregunta": "¿Qué tipo de daños con carácter general, cubre el seguro de responsabilidad civil de suscripción obligatoria (SOA)?",
+      "imatge": "https://images.prismic.io/obikares/68209ada-34e4-425f-85f9-92a39c6aca6c_un.jpg?auto=compress,format",
+      "respostes": [
+        "Nada.",
+        "Solamente los daños personales.",
+        "Los daños personales y los materiales.",
+        "Otras"
       ],
       "resposta_correcta": 2
     }

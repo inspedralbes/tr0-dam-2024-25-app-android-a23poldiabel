@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Añadir Pregunta - Vue.js</title>
+    <title>Añadir/Eliminar Pregunta - Vue.js</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,6 +43,18 @@
         button:hover {
             background-color: #218838;
         }
+        .pregunta {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #eaeaea;
+            border-radius: 4px;
+        }
+        .pregunta button {
+            background-color: #dc3545;
+        }
+        .pregunta button:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -50,12 +62,24 @@
 <div id="app" class="container">
     <h1>Añadir nueva pregunta</h1>
 
+    <!-- Formulario para añadir preguntas -->
     <input v-model="nuevaPregunta.pregunta" placeholder="Escribe la pregunta" />
     <input v-model="nuevaPregunta.imatge" placeholder="URL de la imagen" />
-    <textarea v-model="nuevaPregunta.respostes" placeholder="Respuestas (separadas por coma)"></textarea>
+    <textarea v-model="nuevaPregunta.respostes" placeholder="Respuestas (separadas por /)"></textarea>
     <input v-model.number="nuevaPregunta.resposta_correcta" placeholder="Índice de respuesta correcta (0-3)" />
 
     <button @click="agregarPregunta">Agregar Pregunta</button>
+
+    <h1>Eliminar Pregunta</h1>
+
+    <!-- Lista de preguntas existentes -->
+    <div v-if="preguntas.length === 0">Cargando preguntas...</div>
+    <div v-else>
+        <div v-for="pregunta in preguntas" :key="pregunta.id" class="pregunta">
+            <p><strong>{{ pregunta.pregunta }}</strong></p>
+            <button @click="eliminarPregunta(pregunta.id)">Eliminar</button>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -64,6 +88,7 @@
     new Vue({
         el: '#app',
         data: {
+            preguntas: [], // Lista de preguntas
             nuevaPregunta: {
                 pregunta: '',
                 imatge: '',
@@ -71,17 +96,32 @@
                 resposta_correcta: null
             }
         },
+        mounted() {
+            this.cargarPreguntas(); // Cargar preguntas al iniciar
+        },
         methods: {
+            // Método para cargar las preguntas existentes
+            cargarPreguntas() {
+                fetch('/api/preguntas')
+                    .then(response => response.json())
+                    .then(data => {
+                        this.preguntas = data.preguntes;
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar preguntas:', error);
+                    });
+            },
+            // Método para agregar una nueva pregunta
             agregarPregunta() {
                 if (this.nuevaPregunta.pregunta && this.nuevaPregunta.imatge && this.nuevaPregunta.respostes && this.nuevaPregunta.resposta_correcta !== null) {
                     const nuevaPregunta = {
                         pregunta: this.nuevaPregunta.pregunta,
                         imatge: this.nuevaPregunta.imatge,
-                        respostes: this.nuevaPregunta.respostes.split(',').map(res => res.trim()),
+                        // Cambiar la separación de comas a /
+                        respostes: this.nuevaPregunta.respostes.split('/').map(res => res.trim()),
                         resposta_correcta: this.nuevaPregunta.resposta_correcta
                     };
 
-                    // Enviar pregunta al servidor
                     fetch('/api/agregar-pregunta', {
                         method: 'POST',
                         headers: {
@@ -93,16 +133,37 @@
                         if (response.ok) {
                             alert('Pregunta añadida correctamente');
                             this.nuevaPregunta = { pregunta: '', imatge: '', respostes: '', resposta_correcta: null };
+                            this.cargarPreguntas(); // Recargar preguntas después de añadir
                         } else {
                             alert('Error al añadir la pregunta');
                         }
                     })
                     .catch(error => {
-                        console.error('Error:', error);
+                        console.error('Error al agregar la pregunta:', error);
                         alert('Ocurrió un error al enviar la pregunta');
                     });
                 } else {
                     alert('Por favor, completa todos los campos.');
+                }
+            },
+            // Método para eliminar una pregunta
+            eliminarPregunta(id) {
+                if (confirm('¿Estás seguro de que deseas eliminar esta pregunta?')) {
+                    fetch(`/api/eliminar-pregunta/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Pregunta eliminada correctamente');
+                            this.cargarPreguntas(); // Recargar preguntas después de eliminar
+                        } else {
+                            alert('Error al eliminar la pregunta');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al eliminar la pregunta:', error);
+                        alert('Ocurrió un error al eliminar la pregunta');
+                    });
                 }
             }
         }
