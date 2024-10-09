@@ -22,16 +22,16 @@ fun PreguntasScreen(viewModel: PreguntasViewModel) {
     val isLoading = preguntas.isEmpty()
 
     // Variables para el cuestionario
-    var tiempoRestante by remember { mutableStateOf(60) } // 60 segundos
+    var tiempoTranscurrido by remember { mutableStateOf(0) }
     var currentQuestionIndex by remember { mutableStateOf(0) }
     var respuestasSeleccionadas by remember { mutableStateOf(mutableListOf<String>()) }
     var cuestionarioFinalizado by remember { mutableStateOf(false) }
 
-    // Efecto para decrementar el temporizador
-    LaunchedEffect(tiempoRestante) {
-        if (tiempoRestante > 0 && !cuestionarioFinalizado) {
+    // Efecto para incrementar el cronómetro
+    LaunchedEffect(tiempoTranscurrido) {
+        if (!cuestionarioFinalizado) {
             delay(1000)
-            tiempoRestante--
+            tiempoTranscurrido++
         }
     }
 
@@ -41,9 +41,13 @@ fun PreguntasScreen(viewModel: PreguntasViewModel) {
     } else if (preguntas.isEmpty()) {
         Text(text = "No se encontraron preguntas.", modifier = Modifier.fillMaxSize())
     } else {
-        if (tiempoRestante > 0 && !cuestionarioFinalizado) {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                Text("Tiempo restante: $tiempoRestante segundos")
+        if (!cuestionarioFinalizado) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
+                Text("Tiempo transcurrido: $tiempoTranscurrido segundos")
                 PreguntaItem(preguntas[currentQuestionIndex]) { respuestaSeleccionada ->
                     // Guardar la respuesta seleccionada
                     respuestasSeleccionadas.add(respuestaSeleccionada)
@@ -58,35 +62,58 @@ fun PreguntasScreen(viewModel: PreguntasViewModel) {
                 }
             }
         } else {
-            // Cuando se acaba el tiempo o se han respondido todas las preguntas
-            ResultadosScreen(respuestasSeleccionadas, preguntas)
+            // Cuando se acaban las preguntas, pasamos el tiempo a ResultadosScreen
+            ResultadosScreen(
+                respuestasSeleccionadas,
+                preguntas,
+                tiempoTranscurrido,
+                onReiniciarCuestionario = {
+                    // Lógica para reiniciar el cuestionario
+                    tiempoTranscurrido = 0
+                    currentQuestionIndex = 0
+                    respuestasSeleccionadas.clear()
+                    cuestionarioFinalizado = false
+                }
+            )
         }
     }
 }
 
+
+
 @Composable
-fun ResultadosScreen(respuestasSeleccionadas: List<String>, preguntas: List<Pregunta>) {
+fun ResultadosScreen(
+    respuestasSeleccionadas: MutableList<String>, // Cambiado a MutableList para poder modificarlo
+    preguntas: List<Pregunta>,
+    tiempoTranscurrido: Int, // Añadir el parámetro para el tiempo total
+    onReiniciarCuestionario: () -> Unit // Añadir un callback para reiniciar el cuestionario
+) {
     // Calcular el puntaje
     val puntaje = respuestasSeleccionadas.mapIndexed { index, respuesta ->
         if (respuesta == preguntas[index].respostes[preguntas[index].resposta_correcta]) 1 else 0
     }.sum()
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         Text(text = "Cuestionario finalizado", style = MaterialTheme.typography.titleLarge)
         Text(text = "Tu puntaje: $puntaje de ${preguntas.size}", style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Tiempo total: $tiempoTranscurrido segundos", style = MaterialTheme.typography.bodyMedium)
 
-        // Aquí puedes mostrar una lista de respuestas correctas
-        Text(text = "Respuestas:", style = MaterialTheme.typography.titleMedium)
-        preguntas.forEachIndexed { index, pregunta ->
-            Text(text = "${pregunta.pregunta}: ${pregunta.respostes[pregunta.resposta_correcta]} (Tu respuesta: ${respuestasSeleccionadas[index]})")
-        }
-
-        // Botón para reiniciar el cuestionario o salir
-        Button(onClick = { /* Lógica para reiniciar el cuestionario */ }, modifier = Modifier.padding(top = 16.dp)) {
+        // Botón para reiniciar el cuestionario
+        Button(
+            onClick = {
+                onReiniciarCuestionario() // Llamamos al callback para reiniciar
+            },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
             Text("Reiniciar Cuestionario")
         }
     }
 }
+
 
 @Composable
 fun PreguntaItem(pregunta: Pregunta, onRespuestaSeleccionada: (String) -> Unit) {
