@@ -1,6 +1,7 @@
 package com.example.project0def.Network
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -13,13 +14,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.project0def.Pregunta
 import com.example.project0def.PreguntasViewModel
+import com.example.project0def.RetrofitClient
 import kotlinx.coroutines.delay
+
+
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun PreguntasScreen(viewModel: PreguntasViewModel) {
     val preguntas by viewModel.preguntas.collectAsState()
     val isLoading = preguntas.isEmpty()
+    val error by viewModel.error.collectAsState() // Captura el error
 
     // Variables para el cuestionario
     var tiempoTranscurrido by remember { mutableStateOf(0) }
@@ -36,7 +41,9 @@ fun PreguntasScreen(viewModel: PreguntasViewModel) {
     }
 
     // Manejo de la carga de preguntas
-    if (isLoading) {
+    if (error != null) {
+        Text(text = error!!, modifier = Modifier.fillMaxSize())
+    } else if (isLoading) {
         Text(text = "Cargando preguntas...", modifier = Modifier.fillMaxSize())
     } else if (preguntas.isEmpty()) {
         Text(text = "No se encontraron preguntas.", modifier = Modifier.fillMaxSize())
@@ -80,19 +87,40 @@ fun PreguntasScreen(viewModel: PreguntasViewModel) {
 }
 
 
-
 @Composable
 fun ResultadosScreen(
-    respuestasSeleccionadas: MutableList<String>, // Cambiado a MutableList para poder modificarlo
+    respuestasSeleccionadas: MutableList<String>,
     preguntas: List<Pregunta>,
-    tiempoTranscurrido: Int, // Añadir el parámetro para el tiempo total
-    onReiniciarCuestionario: () -> Unit // Añadir un callback para reiniciar el cuestionario
+    tiempoTranscurrido: Int,
+    onReiniciarCuestionario: () -> Unit
 ) {
     // Calcular el puntaje
     val puntaje = respuestasSeleccionadas.mapIndexed { index, respuesta ->
         if (respuesta == preguntas[index].respostes[preguntas[index].resposta_correcta]) 1 else 0
     }.sum()
 
+    // Crear el objeto Estadistica para enviar al servidor
+    val estadistica = RetrofitClient.Estadistica(
+        respuestas_correctas = puntaje,
+        tiempo_terminado = tiempoTranscurrido
+    )
+
+    // Envía la estadística cuando el cuestionario finaliza
+    LaunchedEffect(Unit) {
+        try {
+            // Llamada a la API para enviar la estadística
+            val response = RetrofitClient.RetrofitClientEstadisticas.api.agregarEstadistica(estadistica)
+            if (response.isSuccessful) {
+                Log.d("ResultadosScreen", "Estadística enviada correctamente")
+            } else {
+                Log.e("ResultadosScreen", "Error al enviar la estadística: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            Log.e("ResultadosScreen", "Error al enviar la estadística: ${e.message}")
+        }
+    }
+
+    // Interfaz de usuario mostrando resultados
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -102,10 +130,9 @@ fun ResultadosScreen(
         Text(text = "Tu puntaje: $puntaje de ${preguntas.size}", style = MaterialTheme.typography.bodyMedium)
         Text(text = "Tiempo total: $tiempoTranscurrido segundos", style = MaterialTheme.typography.bodyMedium)
 
-        // Botón para reiniciar el cuestionario
         Button(
             onClick = {
-                onReiniciarCuestionario() // Llamamos al callback para reiniciar
+                onReiniciarCuestionario()
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {

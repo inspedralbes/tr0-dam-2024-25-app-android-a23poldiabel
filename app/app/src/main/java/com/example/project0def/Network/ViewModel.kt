@@ -23,7 +23,6 @@ class PreguntasViewModel : ViewModel() {
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
 
-    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     private fun cargarPreguntas() {
         viewModelScope.launch {
             try {
