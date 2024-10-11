@@ -21,7 +21,7 @@ interface PreguntasApi {
 }
 
 object RetrofitClient {
-    private val BASE_URL = "http://${IPGloval.ipGeneral}:3000" // Usando la variable global IPGloval.ipGeneral
+    private val BASE_URL = "http://${IPGloval.ipGeneral}:25867" // Usando la variable global IPGloval.ipGeneral
 
     val api: PreguntasApi by lazy {
         Retrofit.Builder()
@@ -42,7 +42,7 @@ object RetrofitClient {
     )
 
     object RetrofitClientEstadisticas {
-        private val BASE_URL = "http://${IPGloval.ipGeneral}:3000"
+        private val BASE_URL = "http://${IPGloval.ipGeneral}:25867"
 
         val api: EstadisticasApi by lazy {
             Retrofit.Builder()

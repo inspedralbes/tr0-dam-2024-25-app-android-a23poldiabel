@@ -2,7 +2,7 @@ package com.example.project0def
 
 class IPGloval {
     companion object {
-        var ipGeneral : String = "192.168.0.157"
+        var ipGeneral : String = "a23poldiabel.dam.inspedralbes.cat"
     }
 }
 fun main(){
