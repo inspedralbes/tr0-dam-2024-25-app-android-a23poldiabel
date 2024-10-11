@@ -7,7 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-// Modelo de datos para la pregunta
 data class Pregunta(
     val id: Int,
     val pregunta: String,
@@ -16,15 +15,13 @@ data class Pregunta(
     val resposta_correcta: Int
 )
 
-// Interfaz del API
 interface PreguntasApi {
     @GET("/api/preguntes")
     suspend fun obtenerPreguntas(): List<Pregunta>
 }
 
-// Configuración de Retrofit
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.1.213:3000"
+    private val BASE_URL = "http://${IPGloval.ipGeneral}:3000" // Usando la variable global IPGloval.ipGeneral
 
     val api: PreguntasApi by lazy {
         Retrofit.Builder()
@@ -33,6 +30,7 @@ object RetrofitClient {
             .build()
             .create(PreguntasApi::class.java)
     }
+
     interface EstadisticasApi {
         @POST("/api/agregar-estadistica")
         suspend fun agregarEstadistica(@Body estadistica: Estadistica): Response<Unit>
@@ -44,7 +42,7 @@ object RetrofitClient {
     )
 
     object RetrofitClientEstadisticas {
-        private const val BASE_URL = "http://192.168.1.213:3000" // Asegúrate que este URL sea el correcto.
+        private val BASE_URL = "http://${IPGloval.ipGeneral}:3000"
 
         val api: EstadisticasApi by lazy {
             Retrofit.Builder()
@@ -55,4 +53,3 @@ object RetrofitClient {
         }
     }
 }
-
